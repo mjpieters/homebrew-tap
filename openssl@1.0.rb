@@ -78,9 +78,9 @@ class OpensslAT10 < Formula
       keychain. To add additional certificates, place .pem files in
       #{openssldir}/certs
 
-    and run
-      #{opt_bin}/c_rehash
-  EOS
+      and run
+        #{opt_bin}/c_rehash
+    EOS
   end
 
   test do
