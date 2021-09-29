@@ -31,14 +31,19 @@ class VarnishAT66 < Formula
     # hook into bottle.stage, so we can redirect the extracted files to the right location
     bottle.instance_variable_set(:@_rack, rack)
     def bottle.stage
+      unversioned = Pathname.pwd / "varnish"
+      version = nil
       @_rack.mkdir unless @_rack.exist?
       @_rack.cd do
         resource.downloader.stage do
           nested = @_rack / "varnish"
+          version = nested.children.first.basename
           FileUtils.mv(nested.children, @_rack)
           nested.rmdir
         end
       end
+      unversioned.mkdir unless unversioned.exist?
+      (unversioned / version).make_symlink (@_rack / version)
     end
 
     super
